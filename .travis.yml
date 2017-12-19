@@ -1,0 +1,24 @@
+language: bash
+services: docker
+sudo: required
+
+env:
+  - SOURCE_REPO=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest DEST_REPO=napnap75/rpi-openvpn
+  
+install:
+  - docker run --rm --privileged multiarch/qemu-user-static:register
+  
+script:
+  - mkdir source
+  - git clone ${SOURCE_REPO} source
+  - cd source
+  - sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile
+  - sed -i "s/FROM .*/FROM ${BASE_IMAGE}" Dockerfile
+  - cat Dockerfile
+  - docker build -t ${DEST_REPO}:latest .
+    
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
+      docker push ${DEST_REPO}:latest ;
+    fi
