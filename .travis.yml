@@ -3,19 +3,28 @@ services: docker
 sudo: required
 
 env:
-  - SOURCE_REPO=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest DEST_REPO=napnap75/rpi-openvpn
+  - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_REPO=napnap75/rpi-openvpn
+  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_REPO=napnap75/rpi-sftpd
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
   
 script:
   - mkdir source
-  - git clone ${SOURCE_REPO} source
+  - if [ "$GIT_BRANCH" == "" ]; then
+      git clone ${SOURCE_GIT} source ;
+    else
+      git clone -b ${GIT_BRANCH} ${SOURCE_GIT} source ;
+    fi
   - cd source
-  - sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile
-  - sed -i "s#FROM .*#FROM ${BASE_IMAGE}#" Dockerfile
+  - if [ "$BASE_IMAGE" != "" ]; then
+      sed -i "s#FROM .*#FROM ${BASE_IMAGE}#" Dockerfile ;
+    fi
+  - if [ "$ADD_QEMU" != "" ]; then
+      curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz ;
+      sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile ;
+    fi
   - cat Dockerfile
-  - curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz
   - docker build -t ${DEST_REPO}:latest .
     
 after_success:
