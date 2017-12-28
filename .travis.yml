@@ -3,8 +3,8 @@ services: docker
 sudo: required
 
 env:
-  - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_REPO=napnap75/rpi-openvpn
-  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_REPO=napnap75/rpi-sftpd
+  - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
+  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
@@ -25,10 +25,18 @@ script:
       sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile ;
     fi
   - cat Dockerfile
-  - docker build -t ${DEST_REPO}:latest .
+  - if [ "$IMAGE_TAG" == "" ]; then
+      docker build -t ${DEST_IMAGE}:latest . ;
+    else
+      docker build -t ${DEST_IMAGE}:${IMAGE_TAG} . ;
+    fi
     
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
       docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
-      docker push ${DEST_REPO}:latest ;
+      if [ "$IMAGE_TAG" == "" ]; then
+        docker push ${DEST_IMAGE}:latest ;
+      else
+        docker push ${DEST_IMAGE}:${IMAGE_TAG} ;
+      fi ;
     fi
