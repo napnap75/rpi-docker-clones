@@ -5,7 +5,7 @@ sudo: required
 env:
   - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
-  - SOURCE_GIT=https://github.com/WMInfoTech/healthchecks GIT_BRANCH=add_docker BASE_IMAGE=arm32v6/python:alpine3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-healthchecks
+  - SOURCE_GIT=https://github.com/alex-phillips/docker-healthchecks BASE_IMAGE=lsiobase/alpine.python.armhf:3.7 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-healthchecks
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
