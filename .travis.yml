@@ -6,6 +6,7 @@ env:
   - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/linuxserver/docker-healthchecks BASE_IMAGE=lsiobase/alpine.python.armhf:3.7 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-healthchecks
+  - SOURCE_GIT=https://github.com/eclipse/mosquitto SUB_DIRECTORY=docker/1.4.10 BASE_IMAGE=arm32v6/alpine:3.5 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-mosquitto
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
@@ -18,6 +19,9 @@ script:
       git clone -b ${GIT_BRANCH} ${SOURCE_GIT} source ;
     fi
   - cd source
+  - if [ "$SUB_DIRECTORY" != "" ]; then
+      cd $SUB_DIRECTORY ;
+    fi
   - if [ "$BASE_IMAGE" != "" ]; then
       sed -i "s#FROM .*#FROM ${BASE_IMAGE}#" Dockerfile ;
     fi
