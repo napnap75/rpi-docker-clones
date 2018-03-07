@@ -6,7 +6,7 @@ env:
   - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/linuxserver/docker-healthchecks BASE_IMAGE=lsiobase/alpine.python.armhf:3.7 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-healthchecks
-  - SOURCE_GIT=https://github.com/eclipse/mosquitto GIT_BRANCH=develop SUB_DIRECTORY=docker/1.4.12 BASE_IMAGE=arm32v6/alpine:3.5 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-mosquitto
+  - SOURCE_GIT=https://github.com/eclipse/mosquitto GIT_BRANCH=develop SUB_DIRECTORY=docker/1.4.14 BASE_IMAGE=arm32v6/alpine:3.7 SED_COMMAND="s/mosquitto=1.4.14-r0/mosquitto/g" ADD_QEMU=true DEST_IMAGE=napnap75/rpi-mosquitto
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
@@ -28,6 +28,9 @@ script:
   - if [ "$ADD_QEMU" != "" ]; then
       curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz ;
       sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile ;
+    fi
+  - if [ "$SED_COMMAND" != "" ]; then
+      sed -i "$SED_COMMAND" Dockerfile ;
     fi
   - cat Dockerfile
   - if [ "$IMAGE_TAG" == "" ]; then
