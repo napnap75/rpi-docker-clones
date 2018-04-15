@@ -7,7 +7,7 @@ env:
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/linuxserver/docker-healthchecks BASE_IMAGE=lsiobase/alpine.python.armhf:3.7 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-healthchecks
   - SOURCE_GIT=https://github.com/eclipse/mosquitto GIT_BRANCH=develop SUB_DIRECTORY=docker/1.4.14 BASE_IMAGE=arm32v6/alpine:3.7 SED_COMMAND="s/mosquitto=1.4.14-r0/mosquitto/g" ADD_QEMU=true DEST_IMAGE=napnap75/rpi-mosquitto
-  - SOURCE_GIT=https://github.com/panubo SUB_DIRECTORY=docker-sshd BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
+  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
