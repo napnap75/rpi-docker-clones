@@ -9,6 +9,10 @@ notifications:
       - secure: XuTZywMCIEVU/IxZh/6By/EtJNbqCBoB6BYGu7vqt4j/28rlW+xNjRPnAcjR+WH2RtjBGVXJjRlbpRcbOmdyW1341CQBl6vKeElWDrXST0ChRQiHgVUrJyaPtjeMYHIUBUiG61O4wm+ZpiicDR4gByK4dXfsx8vyfMgoTATss9R0L/8Zl2iZvqsYIXB2Pp7VppcGhwroaxNi3WSEnntDqupCUFQ8hQL4EDH9MwbbfHivWnbaekMGaxiE+TDGJLWqi8tSbSSLzX24U/LuhgPzCsSC4yOot11T0W4VWsdukV8znNoLulsWvZ1ho3WcnEJkS4/71N4IJILq115iSTZonJBqPCtu5+mGKi+98TJlXSoeutP2OKlvy6RVx5yEhf/i5Mftw6MTtznmSB9fPr8X/IpcTj7H4NFvZYZ7JMesttpGjfCWtNQYRgOY9La1H1QEfrqaDQdOHkORyx5VF4HN1DOHOGxE+9Lj3v9UR5/dg/8U4iyz0AqitHFGoi5p2p2lId+qIfEN2LnLiBAejXbQNclvZFZWBD7J2OoaCZc5LkaBaiRl5YQlfPqNMmOHoT9Ygllzwtd0cnpALB9LQqZXNG23At5DKWyGiMn/rOJrzWyZX4jAKYYjgokRQrS1fS2/JNUV2cdc3rsVSpbqOU+WfMIUbIq4jotsfzJXlYl/UGk=
     on_success: change
 
+arch:
+  - arm64
+os: linux
+
 env:
   - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
