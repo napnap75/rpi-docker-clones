@@ -13,6 +13,7 @@ env:
   - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
+  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-coturn
   
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
