@@ -14,13 +14,10 @@ arch:
 os: linux
 
 env:
-  - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-openvpn
-  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
-  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
-  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest ADD_QEMU=true DEST_IMAGE=napnap75/rpi-coturn
-  
-install:
-  - docker run --rm --privileged multiarch/qemu-user-static:register
+  - SOURCE_GIT=https://github.com/kylemanna/docker-openvpn BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-openvpn
+  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
+  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
+  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-coturn
   
 script:
   - mkdir source
@@ -35,10 +32,6 @@ script:
     fi
   - if [ "$BASE_IMAGE" != "" ]; then
       sed -i "s#FROM .*#FROM ${BASE_IMAGE}#" Dockerfile ;
-    fi
-  - if [ "$ADD_QEMU" != "" ]; then
-      curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/v2.6.0/qemu-arm-static.tar.gz && tar zx -f qemu-arm-static.tar.gz ;
-      sed -i "/FROM .*/a ADD qemu-arm-static /usr/bin" Dockerfile ;
     fi
   - if [ "$SED_COMMAND" != "" ]; then
       sed -i "$SED_COMMAND" Dockerfile ;
