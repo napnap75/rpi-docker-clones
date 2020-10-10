@@ -19,7 +19,8 @@ env:
 #  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
 #  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-coturn
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/dovecot SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=dovecot
-  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin BUILD_OPTIONS="--build-arg ARCH=arm32v6"
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/nginx SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=nginx
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin BUILD_OPTIONS="--build-arg ARCH=arm32v6/"
   
 script:
   - mkdir source
