@@ -18,14 +18,10 @@ env:
 #  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
 #  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
 #  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-coturn
-#  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/dovecot SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=dovecot
-  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin ENV_VARIABLE=ARCH=arm32v6
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/dovecot SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=dovecot
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin SED_COMMAND=s#DISTRO=alpine#DISTRO=arm32v6/alpine# DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin BUILD_OPTIONS="--build-arg ARCH=arm32v6"
   
 script:
-  - if [ "$ENV_VARIABLE" != "" ]; then
-      export $ENV_VARIABLE ;
-      env ;
-    fi
   - mkdir source
   - if [ "$GIT_BRANCH" == "" ]; then
       git clone ${SOURCE_GIT} source ;
@@ -44,17 +40,16 @@ script:
     fi
   - cat Dockerfile
   - if [ "$IMAGE_TAG" == "" ]; then
-      docker build -t ${DEST_IMAGE}:latest . ;
+      docker build $BUILD_OPTIONS -t ${DEST_IMAGE}:latest . ;
     else
-      docker build -t ${DEST_IMAGE}:${IMAGE_TAG} . ;
+      docker build $BUILD_OPTIONS -t ${DEST_IMAGE}:${IMAGE_TAG} . ;
     fi
     
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then
-      docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
-      if [ "$IMAGE_TAG" == "" ]; then
-        docker push ${DEST_IMAGE}:latest ;
-      else
-        docker push ${DEST_IMAGE}:${IMAGE_TAG} ;
-      fi ;
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - if [ "$IMAGE_TAG" == "" ]; then
+      docker push ${DEST_IMAGE}:latest ;
+    else
+      docker push ${DEST_IMAGE}:${IMAGE_TAG} ;
     fi
+    
