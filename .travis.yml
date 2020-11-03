@@ -18,6 +18,7 @@ env:
   - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
   - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-coturn
+  - SOURCE_GIT=https://github.com/minio/minio DEST_IMAGE=napnap75/rpi-minio
   
 script:
   - mkdir source
