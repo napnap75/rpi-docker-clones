@@ -18,12 +18,12 @@ env:
 #  - SOURCE_GIT=https://github.com/atmoz/sftp GIT_BRANCH=alpine BASE_IMAGE=arm32v6/alpine:3.6 DEST_IMAGE=napnap75/rpi-sftpd IMAGE_TAG=alpine
 #  - SOURCE_GIT=https://github.com/panubo/docker-sshd BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-sshd IMAGE_TAG=alpine
 #  - SOURCE_GIT=https://github.com/instrumentisto/coturn-docker-image BASE_IMAGE=arm32v6/alpine:latest DEST_IMAGE=napnap75/rpi-coturn
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/nginx DEST_IMAGE=napnap75/mailu IMAGE_TAG=nginx BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/dovecot DEST_IMAGE=napnap75/mailu IMAGE_TAG=dovecot BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/postfix DEST_IMAGE=napnap75/mailu IMAGE_TAG=postfix BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/rspamd DEST_IMAGE=napnap75/mailu IMAGE_TAG=rspamd BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
-  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/clamav DEST_IMAGE=napnap75/mailu IMAGE_TAG=clamav BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
-  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/nginx DEST_IMAGE=napnap75/mailu IMAGE_TAG=nginx BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
-  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/traefik-certdumper DEST_IMAGE=napnap75/mailu IMAGE_TAG=traefik-certdumper BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=optional/clamav DEST_IMAGE=napnap75/mailu IMAGE_TAG=clamav BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
+  - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=optional/traefik-certdumper DEST_IMAGE=napnap75/mailu IMAGE_TAG=traefik-certdumper BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   
 script:
