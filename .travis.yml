@@ -25,6 +25,8 @@ env:
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=optional/clamav DEST_IMAGE=napnap75/mailu IMAGE_TAG=clamav BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=optional/traefik-certdumper DEST_IMAGE=napnap75/mailu IMAGE_TAG=traefik-certdumper BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
   - SOURCE_GIT=https://github.com/Mailu/Mailu SUB_DIRECTORY=core/admin DEST_IMAGE=napnap75/mailu IMAGE_TAG=admin BUILD_OPTIONS="--build-arg ARCH=arm32v7/ --build-arg DISTRO=balenalib/rpi-alpine:3.10 --build-arg QEMU=arm"
+  - SOURCE_GIT=https://github.com/minio/minio DEST_IMAGE=napnap75/rpi-minio DOCKERFILE_FILE=Dockerfile.arm.release
+  - SOURCE_GIT=https://github.com/minio/mc DEST_IMAGE=napnap75/rpi-minio IMAGE_TAG=mc DOCKERFILE_FILE=Dockerfile.arm.release
   
 script:
   - mkdir source
@@ -36,6 +38,9 @@ script:
   - cd source
   - if [ "$SUB_DIRECTORY" != "" ]; then
       cd $SUB_DIRECTORY ;
+    fi
+  - if [ "$DOCKERFILE_FILE" != "" ]; then
+      mv "$DOCKERFILE_FILE" Dockerfile ;
     fi
   - if [ "$BASE_IMAGE" != "" ]; then
       sed -i "s#FROM .*#FROM ${BASE_IMAGE}#" Dockerfile ;
